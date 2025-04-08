@@ -10,18 +10,19 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-      - run: docker build -t afaqahmad6296/react-test -f ./client/Dockerfile.dev ./client
-      - run: docker run -e CI=true afaqahmad6296/react-test npm test
+      - run: docker build -t aafu6296/react-test -f ./client/Dockerfile.dev ./client
+      - run: docker run -e CI=true aafu6296/react-test npm test
  
-      - run: docker build -t afaqahmad6296/multi-client-10-14 ./client
-      - run: docker build -t afaqahmad6296/multi-nginx-10-14 ./nginx
-      - run: docker build -t afaqahmad6296/multi-server-10-14 ./server
-      - run: docker build -t afaqahmad6296/multi-worker-10-14 ./worker
- 
-      - run: docker push afaqahmad6296/multi-client-10-14
-      - run: docker push afaqahmad6296/multi-nginx-10-14
-      - run: docker push afaqahmad6296/multi-server-10-14
-      - run: docker push afaqahmad6296/multi-worker-10-14
+      - run: docker build -t aafu6296/multi-client-10-14 ./client
+      - run: docker build -t aafu6296/multi-nginx-10-14 ./nginx
+      - run: docker build -t aafu6296/multi-server-10-14 ./server
+      - run: docker build -t aafu6296/multi-worker-10-14 ./worker
+
+      - run: docker push aafu6296/multi-client-10-14
+      - run: docker push aafu6296/multi-nginx-10-14
+      - run: docker push aafu6296/multi-server-10-14
+      - run: docker push aafu6296/multi-worker-10-14
+
  
       # - name: Generate deployment package
       #   run: zip -r deploy.zip . -x '*.git*'
