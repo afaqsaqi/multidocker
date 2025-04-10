@@ -1,65 +1,31 @@
- services:
-  postgres: 
-    image: 'postgres:latest'
-    hostname: postgres
-    container_name: postgres
-    environment:
-      - POSTGRES_PASSWORD=postgres_password
-
-  redis:
-    image: 'redis:latest'
-    hostname: redis
-    container_name: redis
-  
-  api:
-    container_name: api
-    hostname: api
-    build: 
-      dockerfile: Dockerfile.dev
-      context: ./server
-    volumes:
-      - /app/node_modules
-      - ./server:/app
-    environment:
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
-      - PGUSER=postgres
-      - PGHOST=postgres
-      - PGDATABASE=postgres
-      - PGPASSWORD=postgres_password
-      - PGPORT=5432
-
+version: "3"
+services:
   client:
-    container_name: client
+    image: "aafu6296/multi-client-10-14"
+    mem_limit: 128m
     hostname: client
-    build: 
-      dockerfile: Dockerfile.dev
-      context: ./client
-    volumes:
-      - /app/node_modules
-      - ./client:/app
-  
-  worker:
-    build:
-      dockerfile: Dockerfile.dev
-      context: ./worker
-    volumes:
-      - /app/node_modules
-      - ./worker:/app
+  server:
+    image: "aafu6296/multi-server-10-14"
+    mem_limit: 128m
+    hostname: api
     environment:
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
-
-  nginx: 
-    image: 'nginx'
-    restart: always
-    build:
-      dockerfile: Dockerfile.dev
-      context: ./nginx
+      - REDIS_HOST=$REDIS_HOST
+      - REDIS_PORT=$REDIS_PORT
+      - PGUSER=$PGUSER
+      - PGHOST=$PGHOST
+      - PGDATABASE=$PGDATABASE
+      - PGPASSWORD=$PGPASSWORD
+      - PGPORT=$PGPORT
+  worker:
+    image: "aafu6296/multi-worker-10-14"
+    mem_limit: 128m
+    hostname: worker
+    environment:
+      - REDIS_HOST=$REDIS_HOST
+      - REDIS_PORT=$REDIS_PORT
+  nginx:
+    image: "aafu6296/multi-nginx-10-14"
+    mem_limit: 128m
+    hostname: nginx
     ports:
-      - '3050:80'
-    depends_on:
-      - api
-      - client
-
-    
+      - "80:80"
