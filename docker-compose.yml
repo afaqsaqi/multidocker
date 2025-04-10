@@ -1,10 +1,9 @@
-version: "3"
 services:
   client:
     image: "aafu6296/multi-client-10-14"
     mem_limit: 128m
     hostname: client
-  server:
+  api:
     image: "aafu6296/multi-server-10-14"
     mem_limit: 128m
     hostname: api
@@ -27,5 +26,6 @@ services:
     image: "aafu6296/multi-nginx-10-14"
     mem_limit: 128m
     hostname: nginx
+    restart: always
     ports:
       - "80:80"
